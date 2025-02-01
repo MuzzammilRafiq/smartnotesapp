@@ -1,1 +1,2 @@
-- [] we first have to make markdown editor
+- [🧑‍💻] we first have to make markdown editor
+- [✅] in markdown do first we do bold text

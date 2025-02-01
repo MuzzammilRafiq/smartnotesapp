@@ -12,9 +12,9 @@ export default function LoginForm() {
     <main className="flex justify-center items-center min-h-screen bg-gray-50">
       <Card className="w-full max-w-md p-6 shadow-lg">
         <CardContent className="flex flex-col items-center space-y-6 pt-6">
-          <h1 className="text-2xl font-bold text-gray-900">Welcome Back</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Continue with Google</h1>
           <p className="text-gray-500 text-center">
-            Sign in to your account to continue
+            Login or Register with your google account to continue.
           </p>
           <GoogleSignin />
         </CardContent>
