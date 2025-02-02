@@ -2,12 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   background-color: #1a1a1a;
   color: #d3d3d3;
-}
+} */
 
-body {
+/* body {
   background-color: #1a1a1a;
   color: #d3d3d3;
 }
+ */

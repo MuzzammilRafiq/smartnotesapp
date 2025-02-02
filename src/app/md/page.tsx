@@ -1,8 +1,6 @@
 "use client"
-import { useRef, useState } from 'react';
-import type { MDXEditorMethods } from '@mdxeditor/editor';
-import InitializedMDXEditor from "./InitializedMDXEditor";
+import MarkdownEditor from "./MarkdownEditor";
 
 export default function MdPage() {
-    return <InitializedMDXEditor />
+    return <MarkdownEditor />
 }

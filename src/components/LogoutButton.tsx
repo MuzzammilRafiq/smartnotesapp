@@ -1,8 +1,7 @@
 "use client";
 
 import { Button } from "~/components/ui/button";
-import { logout } from "./action";
 
-export default function LogoutButton() {
+export default function LogoutButton({ logout }: { logout: () => void }) {
   return <Button onClick={() => logout()}>Logout</Button>;
 }
