@@ -1,7 +1,8 @@
-'use client';
+"use client";
+
 import '@mdxeditor/editor/style.css';
 import { useState, useRef, useEffect } from 'react';
-import { MDXEditor, MDXEditorMethods } from "@mdxeditor/editor"
+import { MDXEditor, MDXEditorMethods } from "@mdxeditor/editor";
 import {
     headingsPlugin,
     listsPlugin,
@@ -15,46 +16,45 @@ import {
     CodeToggle,
     ListsToggle,
     BlockTypeSelect,
-    // CreateLink,
-    // InsertImage,
     codeBlockPlugin,
     codeMirrorPlugin,
     diffSourcePlugin,
     DiffSourceToggleWrapper,
 } from '@mdxeditor/editor';
 
+import { createNote } from '~/actions/createNote'; // Ensure correct path
+import { useRouter } from 'next/navigation';
+
 const MarkdownEditor = () => {
+    const router = useRouter();
     const editorRef = useRef<MDXEditorMethods>(null);
-    // Set default value to false for initial render
-    const [isMac, setIsMac] = useState<boolean | null>(null); // Default null to avoid mismatch
-
-    useEffect(() => {
-        setIsMac(navigator.platform.toUpperCase().indexOf('MAC') >= 0);
-    }, []);
+    const [markdown, setMarkdown] = useState("");
 
 
-    const [markdown, setMarkdown] = useState(`# Title of Your Document
+    const handleSave = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const lines = markdown.split('\n');
+        const title = lines[0].replace(/^#\s+/, ''); // Fix title extraction
+        const body = markdown;
 
-This is where you'll write the main content of your document.  You can use Markdown formatting here, like:
+        const result = await createNote({ title, body });
+        if (result.error) {
+            alert(result.error);
+            return;
+        }
+        router.push('/');
+    };
 
-*   **Bold text**
-*   *Italics*
-*   Lists:
-    *   Item 1
-    *   Item 2
-*   And much more!
-
-Remember to replace this placeholder text with your actual content.`);
     return (
-        <div className="p-2">
-            <div className="flex">
+        <form id="markdown-form" onSubmit={handleSave} className="p-2">
+            <div className="flex flex-col">
                 <div className="border border-gray-300 rounded-lg overflow-hidden mb-6 flex-1">
                     <MDXEditor
                         ref={editorRef}
                         markdown={markdown}
                         onChange={setMarkdown}
                         className="min-h-[500px] p-4"
-                        contentEditableClassName="prose"  // add a class to style markdown elements
+                        contentEditableClassName="prose"
                         plugins={[
                             headingsPlugin(),
                             listsPlugin(),
@@ -76,32 +76,27 @@ Remember to replace this placeholder text with your actual content.`);
                             toolbarPlugin({
                                 toolbarContents: () => (
                                     <DiffSourceToggleWrapper>
-                                        {/* <UndoRedo
-                                            undoButtonProps={{ title: `Undo ${isMac ? '⌘Z' : 'Ctrl+Z'}` }}
-                                            redoButtonProps={{ title: `Redo ${isMac ? '⌘Y' : 'Ctrl+Y'}` }}
-                                        /> */}
                                         <UndoRedo
-                                            // @ts-ignore
-                                            undoButtonProps={{ title: `Undo ${isMac ? '⌘Z' : 'Ctrl+Z'}` }}
-                                            redoButtonProps={{ title: `Redo ${isMac ? '⌘Y' : 'Ctrl+Y'}` }}
+                                            //@ts-ignore
+                                            undoButtonProps={{ title: 'Undo Ctrl+Z' }}
+                                            redoButtonProps={{ title: 'Redo Ctrl+Y' }}
                                         />
                                         <BoldItalicUnderlineToggles />
                                         <CodeToggle />
                                         <ListsToggle />
                                         <BlockTypeSelect />
-                                        {/* <CreateLink /> */}
-                                        {/* <InsertImage /> */}
                                     </DiffSourceToggleWrapper>
                                 ),
                             }),
                         ]}
                     />
-
                 </div>
+                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Save Note
+                </button>
             </div>
-        </div>
+        </form>
     );
 };
 
 export default MarkdownEditor;
-

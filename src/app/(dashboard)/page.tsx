@@ -1,4 +1,7 @@
+"use client"
+import { createNote } from "~/actions/createNote"
 import { NotePreview } from "~/components/NotePreview"
+import { Button } from "~/components/ui/button"
 const mockNotes: {
   id: string
   title: string
@@ -33,6 +36,9 @@ export default function DashboardPage() {
           <NotePreview key={note.id} note={note} />
         ))}
       </div>
+      <Button onClick={() => createNote({ 'title': 'jdhvej', 'body': 'iudygwi' })}>
+        press butt
+      </Button>
     </div>
   )
 }

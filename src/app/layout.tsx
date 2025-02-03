@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "~/components/header";
-import { logout } from "./actions/logout";
+import { logout } from "~/actions/logout";
 
 
 

@@ -30,7 +30,6 @@ const mockNotes: Note[] = [
 
 export default function NotePage() {
     const params = useParams()
-    console.log(params)
     const note = mockNotes.find((n) => n.id === params.id)
 
     if (!note) {
