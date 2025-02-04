@@ -81,15 +81,7 @@ export function Header({ logout }: { logout: () => void }) {
                         </div>
                     </div>
                     <div className="flex items-center space-x-4">
-                        {isMarkdownPage ? (
-                            <button
-                                form="markdown-form"
-                                type="submit"
-                                className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
-                            >
-                                Save Note
-                            </button>
-                        ) : (
+                        {!isMarkdownPage && (
                             <a
                                 href="/md"
                                 className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"

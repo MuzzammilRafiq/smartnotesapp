@@ -29,20 +29,25 @@ const MarkdownEditor = () => {
     const router = useRouter();
     const editorRef = useRef<MDXEditorMethods>(null);
     const [markdown, setMarkdown] = useState("");
-
+    const [isSaving, setIsSaving] = useState(false);
 
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
-        const lines = markdown.split('\n');
-        const title = lines[0].replace(/^#\s+/, ''); // Fix title extraction
-        const body = markdown;
+        setIsSaving(true);
+        try {
+            const lines = markdown.split('\n');
+            const title = lines[0].replace(/^#\s+/, '');
+            const body = markdown;
 
-        const result = await createNote({ title, body });
-        if (result.error) {
-            alert(result.error);
-            return;
+            const result = await createNote({ title, body });
+            if (result.error) {
+                alert(result.error);
+                return;
+            }
+            router.push('/');
+        } finally {
+            setIsSaving(false);
         }
-        router.push('/');
     };
 
     return (
@@ -91,8 +96,12 @@ const MarkdownEditor = () => {
                         ]}
                     />
                 </div>
-                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Save Note
+                <button 
+                    type="submit" 
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={isSaving}
+                >
+                    {isSaving ? 'Saving...' : 'Save Note'}
                 </button>
             </div>
         </form>
